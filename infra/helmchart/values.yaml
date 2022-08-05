@@ -1,0 +1,77 @@
+  # Default values for application
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+application:
+  runtime: java
+  type: spring-boot
+  # Valor temporário enquanto o PodPreset não funciona em todos os ambientes
+  profile: tst
+
+image:
+  repository: kdopacr.azurecr.io/captacaocolaborar/kroton-captacao-classificacao
+  tag: latest
+  pullPolicy: Always
+  pullSecret: kdopacr
+
+service:
+  type: ClusterIP
+  port: 8080
+  portName: http
+  protocol: TCP
+
+scale:
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 90
+
+virtualservice:
+  host: '*'
+  gateway: captacaocolaborar-gateway
+  openAPI: /captacaocolaborar/documentacao/v1/classificacao
+  healthcheck: /captacaocolaborar/healthcheck/v1/classificacao
+  apis:
+    - /captacao/classificacao/v1
+
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  type: RollingUpdate
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: http
+  initialDelaySeconds: 60
+  timeoutSeconds: 15
+  periodSeconds: 30
+  failureThreshold: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: http
+  initialDelaySeconds: 60
+  timeoutSeconds: 15
+  periodSeconds: 30
+  failureThreshold: 10
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"
+
+lifecycle: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  []

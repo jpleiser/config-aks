@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "type": {
+            "value": "api"
+        },
+        "name": {
+            "value": "jornadaingresso-kroton-captacao-classificacao-api-dev"
+        },
+        "regionId": {
+            "value": "eastus"
+        },
+        "tagsArray": {
+            "value": {
+                "cadeia-valor": "Jornada de Ingresso",
+                "sn-produto":"Classificacao Candidato",
+                "sn-modulo":"Classificacao Candidato"
+            }
+        },
+        "requestSource": {
+            "value": "IbizaAIExtension"
+        }
+    }
+}

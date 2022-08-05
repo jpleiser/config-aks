@@ -1,0 +1,132 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'br.com.einstein-innovation'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+ext {
+	set('springCloudVersion', "2020.0.3")
+	set('springBootVersion' , "2.5.1")
+	set('graphqlVersion'    , '5.0.2')
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	compile.exclude group: "ch.qos.logback", module: "logback-classic"
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	// Microsoft Application Insigths
+	implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.0'
+	implementation group: 'com.microsoft.azure', name: 'applicationinsights-logging-log4j2', version: '2.6.3'
+
+	// Spring
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter',  version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator',  version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: "${springBootVersion}"
+
+	implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: "${springBootVersion}"
+
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: "${springBootVersion}"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: "${springBootVersion}"
+
+
+	// Mongo Client V3.12.10
+	// implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.10'
+	implementation group: 'org.javers', name: 'javers-persistence-mongo', version: '6.6.2'
+	implementation group: 'org.mongodb', name: 'mongodb-driver-legacy', version: '4.3.1'
+
+
+	implementation group: 'org.springframework.boot', name:'spring-boot-starter-log4j2'		// Dependencia app-insight
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.2'	// Dependencia app-insight
+
+	// Cloud
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.3'
+
+	// JPA
+	implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+
+	// RabbitMQ
+	implementation group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.3.9'
+	implementation group: 'org.springframework.amqp', name: 'spring-amqp', version: '2.3.9'
+
+	// Segurança
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+
+	// JSON
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.3'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
+
+	// GraphQL
+	implementation group: 'com.graphql-java', name: 'graphql-spring-boot-starter', version: "$graphqlVersion"
+	implementation group: 'com.graphql-java', name: 'graphiql-spring-boot-starter', version: "$graphqlVersion"
+
+	implementation group: 'com.graphql-java', name: 'graphql-java-tools', version: '5.2.4'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.18'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Concurrency
+	implementation group: 'org.awaitility', name: 'awaitility', version: '3.0.0'
+
+	// POI - Leitura arquivos XLS/XLSX
+	// implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+
+
+	implementation group: 'br.com.quantico.commons', name: 'quantico-commons', version: '2.0.3'
+
+
+	// Oracle JDBC
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+	// runtimeOnly group: 'com.oracle.database.jdbc', name: 'ojdbc8'
+
+	// Cache Hikari
+	implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0'
+
+
+	// Testes
+	testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.2'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.2'
+	testImplementation group: 'org.easymock', name: 'easymock', version: '4.3'
+
+	// Inclusão de dependência para testes utilizando Spring Scheduler
+	testImplementation group: 'org.awaitility', name: 'awaitility', version: '3.0.0'
+
+	// Inclusão de dependência para testes utiliznado Mongo
+	testImplementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '3.0.0'
+
+	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+	testImplementation group: 'com.microsoft.azure', name: 'applicationinsights-logging-log4j2', version: '2.6.3'
+	testImplementation group: 'com.github.fridujo', name: 'rabbitmq-mock', version: '1.1.1'
+
+}
+
+test {
+	useJUnitPlatform()
+}

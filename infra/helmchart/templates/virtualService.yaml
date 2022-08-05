@@ -1,0 +1,47 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ template "application.fullname" . }}
+  labels:
+    app: {{ template "application.name" . }}
+    chart: {{ template "application.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+    - "{{ .Values.virtualservice.host }}"
+  gateways:
+    - {{ .Values.virtualservice.gateway }}
+  http:
+  - match:
+    - uri:
+        prefix: {{ .Values.virtualservice.openAPI }}
+    headers:
+      request:
+        set:
+          x-forwarded-port: "443"
+          x-forwarded-prefix: {{ .Values.virtualservice.openAPI }}
+          x-forwarded-proto: https
+    rewrite:
+      uri: /v3/api-docs
+    route:
+    - destination:
+        host: {{ template "application.fullname" . }}
+  - match:
+    {{- range .Values.virtualservice.apis }}
+    - uri:
+        prefix: {{ . }}
+    rewrite:
+      uri: /v1
+    {{- end }}
+    route:
+    - destination:
+        host: {{ template "application.fullname" . }}
+  - match:
+    - uri:
+        prefix: {{ .Values.virtualservice.healthcheck }}
+    rewrite:
+      uri: /actuator/health
+    route:
+    - destination:
+        host: {{ template "application.fullname" . }}

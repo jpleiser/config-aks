@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Projeto Classificacao Candidato
+name: kroton-captacao-classificacao
+version: 0.0.1

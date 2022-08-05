@@ -1,1 +1,1 @@
-# config-aks
+# java-aks
